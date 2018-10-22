@@ -15,6 +15,10 @@ var triangleBuffer; // this contains indices into vertexBuffer in triples
 var triBufferSize; // the number of indices in the triangle buffer
 var vertexPositionAttrib; // where to put position for vertex shader
 
+// Testing for GitHub pages
+var pleaseWork;
+var needToPassThisClass;
+
 
 // ASSIGNMENT HELPER FUNCTIONS
 
