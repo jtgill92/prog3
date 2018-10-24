@@ -221,11 +221,11 @@ function renderTriangles() {
     
     // Begin transformation code
     // set projection to be projection transformation
-    mat4.perspective(projection, Math.PI/2, 1, 0, 8);
+    mat4.perspective(projection, Math.PI/2, 1, 0.1, 100);
     
     // set modelView to be viewing transformation
     //mat4.lookAt(modelview, Eye.xyz, LookAt.xyz, ViewUp.xyz);
-    mat4.lookAt(modelview, [0.5, 0.5, -0.5], [0.0, 0.0, 1.0], [0.0, 1.0, 0.0]);
+    mat4.lookAt(modelview, [0.5, 0.5, -0.5], [0.5, 0.5, 0.0], [0.0, 1.0, 0.0]);
     //mat4.identity( modelview );
     
     /* Multiply the projection matrix times the modelview matrix to give the
