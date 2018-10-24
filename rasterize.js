@@ -23,7 +23,7 @@ var colorBuffer; // this contains vertex colors in triples
 var projection = mat4.create();  // projection matrix
 var modelview = mat4.create();   // modelview matrix
 var modelviewProjection = mat4.create();  // combined matrix
-var u_modelViewProjection;
+var u_modelviewProjection;
 
 // ASSIGNMENT HELPER FUNCTIONS
 
@@ -165,7 +165,7 @@ function setupShaders() {
         uniform mat4 modelviewProjection;  // Combined transformation matrix.
 
         void main(void) {
-            gl_Position = modelViewProjection * vec4(vertexPosition, 1.0); // use the transformed position
+            gl_Position = modelviewProjection * vec4(vertexPosition, 1.0); // use the transformed position
             vFinalColor = vertexColor;
         }
     `;
