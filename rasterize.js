@@ -23,6 +23,7 @@ var colorBuffer; // this contains vertex colors in triples
 var projection = mat4.create();  // projection matrix
 var modelview = mat4.create();   // modelview matrix
 var modelviewProjection = mat4.create();  // combined matrix
+var u_modelViewProjection;
 
 // ASSIGNMENT HELPER FUNCTIONS
 
@@ -223,7 +224,7 @@ function renderTriangles() {
     mat4.perspective(projection, Math.PI/2, 1, 1, 8);
     
     // set modelView to be viewing transformation
-    mat4.lookAt(modelview, Eye, LookAt, ViewUp);
+    mat4.lookAt(modelview, Eye.vec3, LookAt.vec3, ViewUp.vec3);
     
     /* Multiply the projection matrix times the modelview matrix to give the
    combined transformation matrix, and send that to the shader program. */
