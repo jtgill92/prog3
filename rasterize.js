@@ -7,6 +7,8 @@ const WIN_BOTTOM = 0; const WIN_TOP = 1;  // default top and bottom y coords in 
 const INPUT_TRIANGLES_URL = "https://ncsucgclass.github.io/prog2/triangles.json"; // triangles file loc
 const INPUT_SPHERES_URL = "https://ncsucgclass.github.io/prog2/spheres.json"; // spheres file loc
 var Eye = new vec4.fromValues(0.5,0.5,-0.5,1.0); // default eye position in world space
+var ViewUp = new vec4.fromValues(0.0,1.0,0.0,0.0); // default ViewUp vector
+var LookAt = new vec4.fromValues(0.0,0.0,1.0,0.0); // default LookAt vector
 
 /* webgl globals */
 var gl = null; // the all powerful gl object. It's all here folks!
@@ -18,7 +20,9 @@ var vertexPositionAttrib; // where to put position for vertex shader
 var vertexColorAttrib; // where to put color for fragment shader
 var colorBuffer; // this contains vertex colors in triples
 //*/
-
+var projection = mat4.create();  // projection matrix
+var modelview = mat4.create();   // modelview matrix
+var modelviewProjection = mat4.create();  // combined matrix
 
 // ASSIGNMENT HELPER FUNCTIONS
 
@@ -157,8 +161,10 @@ function setupShaders() {
         attribute vec3 vertexColor;
         varying vec3 vFinalColor;
 
+        uniform mat4 modelviewProjection;  // Combined transformation matrix.
+
         void main(void) {
-            gl_Position = vec4(vertexPosition, 1.0); // use the untransformed position
+            gl_Position = modelViewProjection * vec4(vertexPosition, 1.0); // use the transformed position
             vFinalColor = vertexColor;
         }
     `;
@@ -190,6 +196,7 @@ function setupShaders() {
                 throw "error during shader program linking: " + gl.getProgramInfoLog(shaderProgram);
             } else { // no shader program link errors
                 gl.useProgram(shaderProgram); // activate shader program (frag and vert)
+                u_modelviewProjection = gl.getUniformLocation(shaderProgram, "modelviewProjection");
                 vertexPositionAttrib = // get pointer to vertex shader input
                     gl.getAttribLocation(shaderProgram, "vertexPosition"); 
                 gl.enableVertexAttribArray(vertexPositionAttrib); // input to shader from array
@@ -210,6 +217,19 @@ function setupShaders() {
 // render the loaded model
 function renderTriangles() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clear frame/depth buffers
+    
+    // Begin transformation code
+    // set projection to be projection transformation
+    mat4.perspective(projection, Math.PI/2, 1, 1, 8);
+    
+    // set modelView to be viewing transformation
+    mat4.lookAt(modelview, Eye, LookAt, ViewUp);
+    
+    /* Multiply the projection matrix times the modelview matrix to give the
+   combined transformation matrix, and send that to the shader program. */
+   
+    mat4.multiply( modelviewProjection, projection, modelview );
+    gl.uniformMatrix4fv(u_modelviewProjection, false, modelviewProjection );
     
     ///* //Part 3/4 code
     // color buffer: activate and feed into fragment shader
