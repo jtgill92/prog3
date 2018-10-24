@@ -221,10 +221,10 @@ function renderTriangles() {
     
     // Begin transformation code
     // set projection to be projection transformation
-    mat4.perspective(projection, Math.PI/2, 1, 1, 8);
+    mat4.perspective(projection, Math.PI/2, 1, 0, 8);
     
     // set modelView to be viewing transformation
-    mat4.lookAt(modelview, Eye.vec3, LookAt.vec3, ViewUp.vec3);
+    mat4.lookAt(modelview, Eye.xyz, LookAt.xyz, ViewUp.xyz);
     
     /* Multiply the projection matrix times the modelview matrix to give the
    combined transformation matrix, and send that to the shader program. */
