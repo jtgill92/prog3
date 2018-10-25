@@ -226,6 +226,29 @@ function renderTriangles() {
                   mat4.fromTranslation(mat4.create(),vec3.fromValues(-.40,-.90,0)),
                   inputTriangles[1].mMatrix); // move (-.40,-.90) */
     
+    
+    // Begin transformation code
+    var projection = mat4.create();
+    var modelview = mat4.create();
+    
+    // set projection to be projection transformation
+    mat4.perspective(projection, Math.PI/2, 1, 0.1, 100);
+    
+    // set modelView to be viewing transformation
+    //mat4.lookAt(modelview, Eye.xyz, LookAt.xyz, ViewUp.xyz);
+    mat4.lookAt(modelview, [0.5, 0.5, -0.5], [0.5, 0.5, 0.0], [0.0, 1.0, 0.0]);
+    //mat4.identity( modelview );
+    
+    /* Multiply the projection matrix times the modelview matrix to give the
+   combined transformation matrix, and send that to the shader program. */
+   
+    //mat4.multiply( modelviewProjection, projection, modelview );
+    //gl.uniformMatrix4fv(u_modelviewProjection, false, modelviewProjection );
+    
+    mat4.multiply( inputTriangles[0].mMatrix, projection, modelview );
+    mat4.multiply( inputTriangles[1].mMatrix, projection, modelview );
+    
+    
     for (var whichTriSet=0; whichTriSet<numTriangleSets; whichTriSet++) { 
         
         // pass modeling matrix for set to shadeer
@@ -255,21 +278,3 @@ function main() {
   renderTriangles(); // draw the triangles using webGL
   
 } // end main
-
-    /*
-    // Begin transformation code
-    // set projection to be projection transformation
-    mat4.perspective(projection, Math.PI/2, 1, 0.1, 100);
-    
-    // set modelView to be viewing transformation
-    //mat4.lookAt(modelview, Eye.xyz, LookAt.xyz, ViewUp.xyz);
-    mat4.lookAt(modelview, [0.5, 0.5, -0.5], [0.5, 0.5, 0.0], [0.0, 1.0, 0.0]);
-    //mat4.identity( modelview );
-    */
-    /* Multiply the projection matrix times the modelview matrix to give the
-   combined transformation matrix, and send that to the shader program. */
-   /*
-    mat4.multiply( modelviewProjection, projection, modelview );
-    gl.uniformMatrix4fv(u_modelviewProjection, false, modelviewProjection );
-    */
-
