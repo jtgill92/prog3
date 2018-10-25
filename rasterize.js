@@ -23,7 +23,7 @@ var triangleBuffers = []; // this contains indices into vertexBuffers in triples
 var vertexPositionAttrib; // where to put position for vertex shader
 var modelMatrixULoc; // where to put the model matrix for vertex shader
 
-var materialDiffuseULoc; // where to put the material diffuse property for the fragment shader
+//var materialDiffuseULoc; // where to put the material diffuse property for the fragment shader
 
 
 // ASSIGNMENT HELPER FUNCTIONS
@@ -129,7 +129,8 @@ function setupShaders() {
         uniform vec3 uMaterialDiffuse;   //object diffuse property
 
         void main(void) {
-            gl_FragColor = vec4(uMaterialDiffuse, 1.0); // the material diffuse color
+            //gl_FragColor = vec4(uMaterialDiffuse, 1.0); // the material diffuse color
+            l_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // all fragments white
         }
     `;
     
@@ -174,7 +175,7 @@ function setupShaders() {
                     gl.getAttribLocation(shaderProgram, "vertexPosition"); 
                 modelMatrixULoc = gl.getUniformLocation(shaderProgram, "uModelMatrix"); // ptr to mmat
                 
-                materialDiffuseULoc = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse"); // ptr to mmat
+                //materialDiffuseULoc = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse"); // ptr to mmat
 
                 gl.enableVertexAttribArray(vertexPositionAttrib); // input to shader from array
             } // end if no shader program link errors
@@ -245,8 +246,8 @@ function renderTriangles() {
     //mat4.multiply( modelviewProjection, projection, modelview );
     //gl.uniformMatrix4fv(u_modelviewProjection, false, modelviewProjection );
     
-    mat4.multiply( inputTriangles[0].mMatrix, projection, modelview );
-    mat4.multiply( inputTriangles[1].mMatrix, projection, modelview );
+    //mat4.multiply( inputTriangles[0].mMatrix, projection, modelview );
+    //mat4.multiply( inputTriangles[1].mMatrix, projection, modelview );
     
     
     for (var whichTriSet=0; whichTriSet<numTriangleSets; whichTriSet++) { 
@@ -255,7 +256,7 @@ function renderTriangles() {
         gl.uniformMatrix4fv(modelMatrixULoc, false, inputTriangles[whichTriSet].mMatrix);
         
         // pass material diffuse for shading
-        gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse);
+        //gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse);
 
         // vertex buffer: activate and feed into vertex shader
         gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffers[whichTriSet]); // activate
