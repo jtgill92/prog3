@@ -1,7 +1,7 @@
 /* GLOBAL CONSTANTS AND VARIABLES */
 
 /* assignment specific globals */
-const WIN_Z = 0;  // default graphics window z coord in world space
+/*const WIN_Z = 0;  // default graphics window z coord in world space
 const WIN_LEFT = 0; const WIN_RIGHT = 1;  // default left and right x coords in world space
 const WIN_BOTTOM = 0; const WIN_TOP = 1;  // default top and bottom y coords in world space
 const INPUT_TRIANGLES_URL = "https://ncsucgclass.github.io/prog2/triangles.json"; // triangles file loc
@@ -9,7 +9,17 @@ const INPUT_SPHERES_URL = "https://ncsucgclass.github.io/prog2/spheres.json"; //
 var Eye = new vec4.fromValues(0.5,0.5,-0.5,1.0); // default eye position in world space
 var ViewUp = new vec4.fromValues(0.0,1.0,0.0,0.0); // default ViewUp vector
 var LookAt = new vec4.fromValues(0.0,0.0,1.0,0.0); // default LookAt vector
-var LookAtP = new vec4.fromValues(0.5,0.5,0.0,1.0); // default LookAt point, AKA center
+var LookAtP = new vec4.fromValues(0.5,0.5,0.0,1.0); // default LookAt point, AKA center*/
+
+/* GLOBAL CONSTANTS AND VARIABLES */
+
+/* assignment specific globals */
+const WIN_Z = 0;  // default graphics window z coord in world space
+const WIN_LEFT = 0; const WIN_RIGHT = 1;  // default left and right x coords in world space
+const WIN_BOTTOM = 0; const WIN_TOP = 1;  // default top and bottom y coords in world space
+const INPUT_TRIANGLES_URL = "https://pages.github.ncsu.edu/cgclass/exercise5/triangles.json"; // triangles file loc
+const INPUT_ELLIPSOIDS_URL = "https://pages.github.ncsu.edu/cgclass/exercise5/ellipsoids.json"; // ellipsoids file loc
+var Eye = new vec4.fromValues(0.5,0.5,-0.5,1.0); // default eye position in world space
 
 /* input globals */
 var inputTriangles; // the triangles read in from json
@@ -22,8 +32,6 @@ var vertexBuffers = []; // this contains vertex coordinates in triples, organize
 var triangleBuffers = []; // this contains indices into vertexBuffers in triples, organized by tri set
 var vertexPositionAttrib; // where to put position for vertex shader
 var modelMatrixULoc; // where to put the model matrix for vertex shader
-
-//var materialDiffuseULoc; // where to put the material diffuse property for the fragment shader
 
 
 // ASSIGNMENT HELPER FUNCTIONS
@@ -125,12 +133,8 @@ function setupShaders() {
     
     // define fragment shader in essl using es6 template strings
     var fShaderCode = `
-
-        uniform vec3 uMaterialDiffuse;   //object diffuse property
-
         void main(void) {
-            //gl_FragColor = vec4(uMaterialDiffuse, 1.0); // the material diffuse color
-            l_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // all fragments white
+            gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // all fragments are white
         }
     `;
     
@@ -174,8 +178,6 @@ function setupShaders() {
                 vertexPositionAttrib = // get pointer to vertex shader input
                     gl.getAttribLocation(shaderProgram, "vertexPosition"); 
                 modelMatrixULoc = gl.getUniformLocation(shaderProgram, "uModelMatrix"); // ptr to mmat
-                
-                //materialDiffuseULoc = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse"); // ptr to mmat
 
                 gl.enableVertexAttribArray(vertexPositionAttrib); // input to shader from array
             } // end if no shader program link errors
@@ -193,7 +195,6 @@ function renderTriangles() {
     
     // define the modeling matrix for the first set 
     inputTriangles[0].mMatrix = mat4.create(); // modeling mat for tri set
-    
     var setCenter = vec3.fromValues(.25,.75,0);  // center coords of tri set 
     mat4.fromTranslation(inputTriangles[0].mMatrix,vec3.negate(vec3.create(),setCenter)); // translate to origin
     mat4.multiply(inputTriangles[0].mMatrix,
@@ -207,11 +208,10 @@ function renderTriangles() {
                   inputTriangles[0].mMatrix); // rotate 45 degs
     mat4.multiply(inputTriangles[0].mMatrix,
                   mat4.fromTranslation(mat4.create(),vec3.fromValues(-.40,-.90,0)),
-                  inputTriangles[0].mMatrix); // move (-.40,-.90) 
+                  inputTriangles[0].mMatrix); // move (-.40,-.90)
         
     // define the modeling matrix for the second set
     inputTriangles[1].mMatrix = mat4.create();
-    
     setCenter = vec3.fromValues(.10,.25,.75);  // center coords of tri set 
     mat4.fromTranslation(inputTriangles[1].mMatrix,vec3.negate(vec3.create(),setCenter)); // translate to origin
     mat4.multiply(inputTriangles[1].mMatrix,
@@ -225,38 +225,12 @@ function renderTriangles() {
                   inputTriangles[1].mMatrix); // rotate 45 degs
     mat4.multiply(inputTriangles[1].mMatrix,
                   mat4.fromTranslation(mat4.create(),vec3.fromValues(-.40,-.90,0)),
-                  inputTriangles[1].mMatrix); // move (-.40,-.90) 
-    
-    
-    // Begin transformation code
-    var projection = mat4.create();
-    var modelview = mat4.create();
-    
-    // set projection to be projection transformation
-    mat4.perspective(projection, Math.PI/2, 1, 0.1, 100);
-    
-    // set modelView to be viewing transformation
-    //mat4.lookAt(modelview, Eye.xyz, LookAt.xyz, ViewUp.xyz);
-    mat4.lookAt(modelview, [0.5, 0.5, -0.5], [0.5, 0.5, 0.0], [0.0, 1.0, 0.0]);
-    //mat4.identity( modelview );
-    
-    /* Multiply the projection matrix times the modelview matrix to give the
-   combined transformation matrix, and send that to the shader program. */
-   
-    //mat4.multiply( modelviewProjection, projection, modelview );
-    //gl.uniformMatrix4fv(u_modelviewProjection, false, modelviewProjection );
-    
-    //mat4.multiply( inputTriangles[0].mMatrix, projection, modelview );
-    //mat4.multiply( inputTriangles[1].mMatrix, projection, modelview );
-    
+                  inputTriangles[1].mMatrix); // move (-.40,-.90)
     
     for (var whichTriSet=0; whichTriSet<numTriangleSets; whichTriSet++) { 
         
         // pass modeling matrix for set to shadeer
         gl.uniformMatrix4fv(modelMatrixULoc, false, inputTriangles[whichTriSet].mMatrix);
-        
-        // pass material diffuse for shading
-        //gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse);
 
         // vertex buffer: activate and feed into vertex shader
         gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffers[whichTriSet]); // activate
