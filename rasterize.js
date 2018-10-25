@@ -193,7 +193,7 @@ function renderTriangles() {
     
     // define the modeling matrix for the first set 
     inputTriangles[0].mMatrix = mat4.create(); // modeling mat for tri set
-    /*
+    
     var setCenter = vec3.fromValues(.25,.75,0);  // center coords of tri set 
     mat4.fromTranslation(inputTriangles[0].mMatrix,vec3.negate(vec3.create(),setCenter)); // translate to origin
     mat4.multiply(inputTriangles[0].mMatrix,
@@ -207,11 +207,11 @@ function renderTriangles() {
                   inputTriangles[0].mMatrix); // rotate 45 degs
     mat4.multiply(inputTriangles[0].mMatrix,
                   mat4.fromTranslation(mat4.create(),vec3.fromValues(-.40,-.90,0)),
-                  inputTriangles[0].mMatrix); // move (-.40,-.90) */
+                  inputTriangles[0].mMatrix); // move (-.40,-.90) 
         
     // define the modeling matrix for the second set
     inputTriangles[1].mMatrix = mat4.create();
-    /*
+    
     setCenter = vec3.fromValues(.10,.25,.75);  // center coords of tri set 
     mat4.fromTranslation(inputTriangles[1].mMatrix,vec3.negate(vec3.create(),setCenter)); // translate to origin
     mat4.multiply(inputTriangles[1].mMatrix,
@@ -225,7 +225,7 @@ function renderTriangles() {
                   inputTriangles[1].mMatrix); // rotate 45 degs
     mat4.multiply(inputTriangles[1].mMatrix,
                   mat4.fromTranslation(mat4.create(),vec3.fromValues(-.40,-.90,0)),
-                  inputTriangles[1].mMatrix); // move (-.40,-.90) */
+                  inputTriangles[1].mMatrix); // move (-.40,-.90) 
     
     
     // Begin transformation code
