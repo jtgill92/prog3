@@ -230,7 +230,7 @@ function renderTriangles() {
         gl.uniformMatrix4fv(modelMatrixULoc, false, inputTriangles[whichTriSet].mMatrix);
         
         // pass material diffuse for shading
-        gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse;
+        gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse);
 
         // vertex buffer: activate and feed into vertex shader
         gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffers[whichTriSet]); // activate
