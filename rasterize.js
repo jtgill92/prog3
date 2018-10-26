@@ -126,6 +126,12 @@ function setupShaders() {
     
     // define fragment shader in essl using es6 template strings
     var fShaderCode = `
+        #ifdef GL_FRAGMENT_PRECISION_HIGH
+        precision highp float;
+        #else
+        precision mediump float;
+        #endif
+
         uniform vec3 uMaterialDiffuse; // the model matrix
         
         void main(void) {
