@@ -233,7 +233,7 @@ function renderTriangles() {
     for (var whichTriSet=0; whichTriSet<numTriangleSets; whichTriSet++) { 
         
         // pass material diffuse property for set to shader
-        //gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse);
+        gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse);
         
         // pass modeling matrix for set to shadeer
         gl.uniformMatrix4fv(modelMatrixULoc, false, inputTriangles[whichTriSet].mMatrix);
