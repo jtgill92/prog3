@@ -174,7 +174,7 @@ function setupShaders() {
                     gl.getAttribLocation(shaderProgram, "vertexPosition"); 
                 modelMatrixULoc = gl.getUniformLocation(shaderProgram, "uModelMatrix"); // ptr to mmat
                 
-                materialDiffuseULoc = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse"); // ptr to mmat
+                //materialDiffuseULoc = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse"); // ptr to mmat
 
                 gl.enableVertexAttribArray(vertexPositionAttrib); // input to shader from array
             } // end if no shader program link errors
@@ -227,7 +227,7 @@ function renderTriangles() {
     for (var whichTriSet=0; whichTriSet<numTriangleSets; whichTriSet++) { 
         
         // pass material diffuse property for set to shader
-        gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse);
+        //gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse);
         
         // pass modeling matrix for set to shadeer
         gl.uniformMatrix4fv(modelMatrixULoc, false, inputTriangles[whichTriSet].mMatrix);
