@@ -135,7 +135,8 @@ function setupShaders() {
         uniform vec3 uMaterialDiffuse; // the model matrix
         
         void main(void) {
-            gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // all fragments are white
+            //gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // all fragments are white
+            gl_FragColor = vec4(uMaterialDiffuse, 1.0); // all fragments are diffuse material color
         }
     `;
     
