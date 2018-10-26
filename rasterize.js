@@ -126,7 +126,7 @@ function setupShaders() {
     
     // define fragment shader in essl using es6 template strings
     var fShaderCode = `
-        //uniform vec3 uMaterialDiffuse; // the model matrix
+        uniform vec3 uMaterialDiffuse; // the model matrix
         
         void main(void) {
             gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // all fragments are white
