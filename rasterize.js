@@ -1,19 +1,6 @@
 /* GLOBAL CONSTANTS AND VARIABLES */
 
 /* assignment specific globals */
-/*const WIN_Z = 0;  // default graphics window z coord in world space
-const WIN_LEFT = 0; const WIN_RIGHT = 1;  // default left and right x coords in world space
-const WIN_BOTTOM = 0; const WIN_TOP = 1;  // default top and bottom y coords in world space
-const INPUT_TRIANGLES_URL = "https://ncsucgclass.github.io/prog2/triangles.json"; // triangles file loc
-const INPUT_SPHERES_URL = "https://ncsucgclass.github.io/prog2/spheres.json"; // spheres file loc
-var Eye = new vec4.fromValues(0.5,0.5,-0.5,1.0); // default eye position in world space
-var ViewUp = new vec4.fromValues(0.0,1.0,0.0,0.0); // default ViewUp vector
-var LookAt = new vec4.fromValues(0.0,0.0,1.0,0.0); // default LookAt vector
-var LookAtP = new vec4.fromValues(0.5,0.5,0.0,1.0); // default LookAt point, AKA center*/
-
-/* GLOBAL CONSTANTS AND VARIABLES */
-
-/* assignment specific globals */
 const WIN_Z = 0;  // default graphics window z coord in world space
 const WIN_LEFT = 0; const WIN_RIGHT = 1;  // default left and right x coords in world space
 const WIN_BOTTOM = 0; const WIN_TOP = 1;  // default top and bottom y coords in world space
