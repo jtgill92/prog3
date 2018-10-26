@@ -7,6 +7,7 @@ const WIN_BOTTOM = 0; const WIN_TOP = 1;  // default top and bottom y coords in 
 const INPUT_TRIANGLES_URL = "https://ncsucgclass.github.io/prog2/triangles.json"; // triangles file loc
 const INPUT_SPHERES_URL = "https://ncsucgclass.github.io/prog2/spheres.json"; // spheres file loc
 var Eye = new vec4.fromValues(0.5,0.5,-0.5,1.0); // default eye position in world space
+
 var ViewUp = new vec4.fromValues(0.0,1.0,0.0,0.0); // default ViewUp vector
 var LookAt = new vec4.fromValues(0.0,0.0,1.0,0.0); // default LookAt vector
 var LookAtP = new vec4.fromValues(0.5,0.5,0.0,1.0); // default LookAt point, AKA center
@@ -22,6 +23,8 @@ var vertexBuffers = []; // this contains vertex coordinates in triples, organize
 var triangleBuffers = []; // this contains indices into vertexBuffers in triples, organized by tri set
 var vertexPositionAttrib; // where to put position for vertex shader
 var modelMatrixULoc; // where to put the model matrix for vertex shader
+
+var materialDiffuseULoc; // where to put the material diffuse properties
 
 
 // ASSIGNMENT HELPER FUNCTIONS
@@ -123,6 +126,8 @@ function setupShaders() {
     
     // define fragment shader in essl using es6 template strings
     var fShaderCode = `
+        uniform vec3 uMaterialDiffuse; // the model matrix
+        
         void main(void) {
             gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // all fragments are white
         }
@@ -168,6 +173,8 @@ function setupShaders() {
                 vertexPositionAttrib = // get pointer to vertex shader input
                     gl.getAttribLocation(shaderProgram, "vertexPosition"); 
                 modelMatrixULoc = gl.getUniformLocation(shaderProgram, "uModelMatrix"); // ptr to mmat
+                
+                materialDiffuseULoc = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse"); // ptr to mmat
 
                 gl.enableVertexAttribArray(vertexPositionAttrib); // input to shader from array
             } // end if no shader program link errors
@@ -218,6 +225,9 @@ function renderTriangles() {
                   inputTriangles[1].mMatrix); // move (-.40,-.90)
     
     for (var whichTriSet=0; whichTriSet<numTriangleSets; whichTriSet++) { 
+        
+        // pass material diffuse property for set to shader
+        gl.uniform3fv(materialDiffuseULoc, inputTriangles[whichTriSet].material.diffuse);
         
         // pass modeling matrix for set to shadeer
         gl.uniformMatrix4fv(modelMatrixULoc, false, inputTriangles[whichTriSet].mMatrix);
